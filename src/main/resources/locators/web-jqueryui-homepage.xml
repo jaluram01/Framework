@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locators group="home">
+
+	<locator name="droppableLink">
+		<type>xpath</type>
+		<value>//a[normalize-space()='Droppable']</value>
+	</locator>
+
+	<locator name="selectableLink">
+		<type>xpath</type>
+		<value>//a[normalize-space()='Selectable']</value>
+	</locator>
+
+
+	<locator name="controlgroupLink">
+		<type>xpath</type>
+		<value>//a[normalize-space()='Controlgroup']</value>
+	</locator>
+
+	<!-- Common Locator Across All Pages -->
+	<locator name="demoFrame">
+		<type>xpath</type>
+		<value>//iframe[@class='demo-frame']</value>
+	</locator>
+
+</locators>

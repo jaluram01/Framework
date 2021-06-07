@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locators group="selectable">
+
+	<locator name="carTypeBtn">
+		<type>id</type>
+		<value>car-type-button</value>
+	</locator>
+
+	<locator name="carTypeDropdownHorizontalOptions">
+		<type>xpath</type>
+		<value>//div[@class='ui-selectmenu-menu ui-front ui-selectmenu-open']//li/div</value>
+	</locator>
+
+	<locator name="horizontalSpinner">
+		<type>id</type>
+		<value>horizontal-spinner</value>
+	</locator>
+
+	<locator name="automaticRadioBtn">
+		<type>xpath</type>
+		<value>//label[@for='transmission-automatic']/span[1]</value>
+	</locator>
+
+	<locator name="insuranceCheckBox">
+		<type>xpath</type>
+		<value>//label[@for='insurance']/span[1]</value>
+	</locator>
+
+	<locator name="standardRadioBtn">
+		<type>xpath</type>
+		<value>//label[@for='transmission-standard-v']/span[1]</value>
+	</locator>
+
+	<locator name="insuranceCheckBox_2">
+		<type>xpath</type>
+		<value>//label[@for='insurance-v']/span[1]</value>
+	</locator>
+
+	<locator name="verticalSpinner">
+		<type>id</type>
+		<value>vertical-spinner</value>
+	</locator>
+	
+	<locator name="verticalCarTypeButton">
+		<type>id</type>
+		<value>ui-id-8-button</value>
+	</locator>
+	
+	<locator name="carTypeDropdownVerticalOptions">
+		<type>xpath</type>
+		<value>//div[@class='ui-selectmenu-menu ui-front ui-selectmenu-open']//li/div</value>
+	</locator>
+	
+	<locator name="bookNowBtn">
+		<type>id</type>
+		<value>book</value>
+	</locator>
+</locators>

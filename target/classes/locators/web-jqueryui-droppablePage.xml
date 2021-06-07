@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locators group="dropable">
+	<locator name="draggableArea">
+		<type>xpath</type>
+		<value>//div[@id='draggable']</value>
+	</locator>
+
+	<locator name="droppableArea">
+		<type>xpath</type>
+		<value>//div[@id='droppable']</value>
+	</locator>
+</locators>

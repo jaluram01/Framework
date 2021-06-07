@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locators group="selectable">
+	
+	<locator name="dropdown">
+		<type>xpath</type>
+		<value>//p[@class='desc']</value>
+	</locator>
+	
+	<locator name="dropdownOptions">
+		<type>xpath</type>
+		<value>(//ol[@id = 'selectable'])/li</value>
+	</locator>
+</locators>
