@@ -1,50 +1,43 @@
 package com.qa.api;
 
-import static io.restassured.RestAssured.get;
+import java.util.HashMap;
+
+//import static io.restassured.RestAssured.get;
 
 import java.util.List;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import static io.restassured.RestAssured.*;
+import com.qa.api.pojo.Data;
+import com.qa.api.pojo.UserPages;
+import com.qa.api.pojo.Users;
+import com.qa.base.BaseApiTest;
 import io.restassured.RestAssured;
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-public class ApiTest {
-	
-	@Test(enabled = true)
+public class ApiTest extends BaseApiTest {
+private final static String URL = "https://reqres.in/api/users?page=2";
+
+
+	@Test(enabled = false)
 	public void scenarios1() {
-		Response response = get("https://reqres.in/api/users?page=2");
-		Assert.assertEquals(response.getStatusCode(), 200);
-		JsonPath jsonPath = response.jsonPath();
-		List<Object> list = jsonPath.getList("data");
-		boolean expectedValue = list.get(3).toString().contains("first_name=Byron");
-		Assert.assertTrue(expectedValue);
+		UserPages userPages = get(URL).as(UserPages.class);
+		List<Data> list = userPages.getData();
+		for (Data items : list) {
+			if (items.getId() == 10) {
+				Assert.assertEquals(items.getFirst_name(), "Byron");
+			}
+		}
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	@Test(enabled = true)
-	public void testCase2()
-	{ 
-	 RestAssured.baseURI ="https://restapi.demoqa.com/customer";
-	 RequestSpecification request = RestAssured.given();
-	 JSONObject requestParams = new JSONObject();
-	 
-	 requestParams.put("name", "Bryant"); 
-	 requestParams.put("job", "BA");
-	 
-	 request.body(requestParams);
-	 RestAssured.given()
-             .header("Content-type", "application/json")
-             .and()
-             .body(requestParams)
-             .post()
-             .then()
-             .log()
-             .all()
-             .assertThat()
-             .statusCode(201);
+	public void testCase2() {
+		HashMap<String, String> body = new HashMap<>();
+		body.put("name", "Bryant");
+		body.put("job", "BA");
+		Response reponse = postRequest("https://reqres.in/api/users", body);
+		String id = reponse.then().assertThat().statusCode(201).and().extract().jsonPath().get("id");
+		Assert.assertTrue(id!=null);
 	}
 }
