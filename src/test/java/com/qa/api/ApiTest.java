@@ -20,7 +20,7 @@ public class ApiTest extends BaseApiTest {
 private final static String URL = "https://reqres.in/api/users?page=2";
 
 
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void scenarios1() {
 		UserPages userPages = get(URL).as(UserPages.class);
 		List<Data> list = userPages.getData();
