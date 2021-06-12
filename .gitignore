@@ -9,5 +9,11 @@
 /target/generated-test-sources/
 /target/maven-status/
 /target/surefire-reports/
+/target/classes/
+/target/test-classes/
+
+
+
+.DS_Store
 
 
