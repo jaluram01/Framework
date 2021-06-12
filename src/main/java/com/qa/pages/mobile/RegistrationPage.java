@@ -2,8 +2,6 @@ package com.qa.pages.mobile;
 
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-import com.qa.base.MobileBaseTest;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -14,17 +12,17 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
  * @author Jalu Ram
  *
  */
-public class RegistrationPage extends MobileBaseTest {
+public class RegistrationPage {
 
 	@AndroidFindBy(id = "io.selendroid.testapp:id/startUserRegistration")
 	MobileElement fileIconButton;
-	
-	@AndroidFindBy(xpath = "//android.widget.TextView[contains(text(),'Welcome to register')]")
+
+	@AndroidFindBy(xpath = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.ScrollView/android.widget.LinearLayout/android.widget.TextView[1]")
 	MobileElement welcomeLabel;
-	
+
 	@AndroidFindBy(id = "io.selendroid.testapp:id/inputUsername")
 	MobileElement userNameTextBox;
-	
+
 	@AndroidFindBy(id = "io.selendroid.testapp:id/inputEmail")
 	MobileElement emailTextBox;
 	
@@ -32,7 +30,7 @@ public class RegistrationPage extends MobileBaseTest {
 	MobileElement passwordTextBox;
 	
 	@AndroidFindBy(id = "io.selendroid.testapp:id/inputName")
-	public MobileElement nameTxtBox;
+	MobileElement nameTxtBox;
 	
 	@AndroidFindBy(id = "io.selendroid.testapp:id/input_adds")
 	MobileElement tNCCheckbox; 
@@ -41,28 +39,28 @@ public class RegistrationPage extends MobileBaseTest {
 	MobileElement regUserBtn;
 	
 	@AndroidFindBy(id = "io.selendroid.testapp:id/label_name_data")
-	public MobileElement nameField;
+	MobileElement nameField;
 	
 	@AndroidFindBy(id = "io.selendroid.testapp:id/label_username_data")
-	public MobileElement userNameField;
+	MobileElement userNameField;
 	
-	@AndroidFindBy(id = "io.selendroid.testapp:id/input_preferedProgrammingLanguage")
-	public MobileElement programmingLangDropdownValue;
+	@AndroidFindBy(id = "android:id/text1")
+	MobileElement programmingLangDropdownValue;
 	
 	@AndroidFindBy(id = "io.selendroid.testapp:id/label_password_data")
-	public MobileElement passwordField;
+	MobileElement passwordField;
 	
 	@AndroidFindBy(id = "io.selendroid.testapp:id/label_email_data")
-	public MobileElement emailField;
+	MobileElement emailField;
 	
 	@AndroidFindBy(id = "io.selendroid.testapp:id/label_preferedProgrammingLanguage_data")
-	public MobileElement pRLangField;
+	MobileElement pRLangField;
 	
 	@AndroidFindBy(id = "io.selendroid.testapp:id/label_acceptAdds_data")
-	public MobileElement iAcceptVal;
+	MobileElement iAcceptVal;
 	
 	@AndroidFindBy(id = "io.selendroid.testapp:id/buttonRegisterUser")
-	public MobileElement registerButton;
+	MobileElement registerButton;
 		
 	public WebDriverWait wait;
 	public AppiumDriver<MobileElement> appiumDriver;
@@ -72,42 +70,80 @@ public class RegistrationPage extends MobileBaseTest {
 		PageFactory.initElements(new AppiumFieldDecorator(this.appiumDriver), this);
 		wait = new WebDriverWait(appiumDriver, 30);
 	}
-	
-	public void verifyRegPageElements() {
-		Assert.assertEquals(userNameTextBox.isDisplayed(), true);
-		Assert.assertEquals(emailTextBox.isDisplayed(), true);
-		Assert.assertEquals(passwordTextBox.isDisplayed(), true);
-		Assert.assertEquals(nameTxtBox.isDisplayed(), true);
-		Assert.assertEquals(tNCCheckbox.isDisplayed(), true);
-		Assert.assertEquals(regUserBtn.isDisplayed(), true);
-	}
-	
-	public void clickFileLogo() {
-		Assert.assertEquals(fileIconButton.isDisplayed(), true);		
-		fileIconButton.click();
-	}
-	
-	public void verifyRegPageTitle() {
-		Assert.assertEquals(welcomeLabel.isDisplayed(), true);
-	}
+
 	
 	public void fillRegistrationFormAndClickRegister(String uname, String email, String pwd, String name) {
 		userNameTextBox.sendKeys(uname);
 		emailTextBox.sendKeys(email);
 		passwordTextBox.sendKeys(pwd);
+		nameTxtBox.clear();
 		nameTxtBox.sendKeys(name);
 		tNCCheckbox.click();
 		regUserBtn.click();			
 	}
 	
-	public void postRegistrationPage(String uname, String email, String pwd, String name, 
-			String lang, String acceptVal) {
-		
-		Assert.assertEquals(nameField.getText(), name);
-		Assert.assertEquals(userNameField.getText(), uname);
-		Assert.assertEquals(passwordField.getText(), pwd);
-		Assert.assertEquals(emailField.getText(), email);
-		Assert.assertEquals(pRLangField.getText(), lang);
-		Assert.assertEquals(iAcceptVal.getText(), acceptVal);	
+	
+	public MobileElement getFileIconButton() {
+		return fileIconButton;
+	}
+
+	public MobileElement getWelcomeLabel() {
+		return welcomeLabel;
+	}
+
+	public MobileElement getUserNameTextBox() {
+		return userNameTextBox;
+	}
+
+	public MobileElement getEmailTextBox() {
+		return emailTextBox;
+	}
+
+	public MobileElement getPasswordTextBox() {
+		return passwordTextBox;
+	}
+
+	public MobileElement getNameTxtBox() {
+		return nameTxtBox;
+	}
+
+	public MobileElement gettNCCheckbox() {
+		return tNCCheckbox;
+	}
+
+	public MobileElement getRegUserBtn() {
+		return regUserBtn;
+	}
+
+	public MobileElement getNameField() {
+		return nameField;
+	}
+
+	public MobileElement getUserNameField() {
+		return userNameField;
+	}
+
+	public MobileElement getProgrammingLangDropdownValue() {
+		return programmingLangDropdownValue;
+	}
+
+	public MobileElement getPasswordField() {
+		return passwordField;
+	}
+
+	public MobileElement getEmailField() {
+		return emailField;
+	}
+
+	public MobileElement getpRLangField() {
+		return pRLangField;
+	}
+
+	public MobileElement getiAcceptVal() {
+		return iAcceptVal;
+	}
+
+	public MobileElement getRegisterButton() {
+		return registerButton;
 	}
 }

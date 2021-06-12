@@ -5,16 +5,12 @@ import java.util.HashMap;
 //import static io.restassured.RestAssured.get;
 
 import java.util.List;
-import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.qa.api.pojo.Data;
 import com.qa.api.pojo.UserPages;
-import com.qa.api.pojo.Users;
 import com.qa.base.BaseApiTest;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 
 public class ApiTest extends BaseApiTest {
 private final static String URL = "https://reqres.in/api/users?page=2";

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Set;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -13,6 +14,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
+
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
@@ -30,6 +33,8 @@ public class TestBase {
 	public ExtentReports report;
 	public ExtentTest reporter;
 	
+	private static final String REPORT_PATH = "/Users/jalu.ram/eclipse-workspace/Framework/Reports/%s.html";
+	
 	protected final Logger logger = LogManager.getLogger(getClass());
 	private static final Logger testBaseLogger = LogManager.getLogger(TestBase.class);
 	protected static boolean closeBrowserAfterClass = true;
@@ -41,7 +46,7 @@ public class TestBase {
 		LoggingUtil.initializeLoggingLevel();
 		testBaseLogger.debug(String.format(ANNOTATION_LOG_STATEMENT_PATTERN, "Before Suite"));
 		ExtentHtmlReporter extentHtmlReporter = new ExtentHtmlReporter(
-				new File("/Users/jalu.ram/eclipse-workspace/Framework/Reports/testreport.html"));
+				new File(String.format(REPORT_PATH, this.getClass().getSimpleName())));
 		report = new ExtentReports();
 		report.attachReporter(extentHtmlReporter);
 	}
@@ -56,34 +61,34 @@ public class TestBase {
 	public void beforeTestBaseMethod(Method method) {
 		testBaseLogger.trace(String.format(ANNOTATION_LOG_STATEMENT_PATTERN, "Before Method"));
 		testBaseLogger.info(String.format("**** Test: %s ****", method.getName()));
+		reporter = report.createTest(method.getAnnotation(Test.class).testName());
 	}
 	
 	@AfterMethod(alwaysRun = true)
 	public void afterTestBaseMethod(ITestResult result, Method method) {
 		testBaseLogger.info(String.format(ANNOTATION_LOG_STATEMENT_PATTERN, "After Method"));
-		endTest(result, method);
-		report.flush();
+		String testCaseName = method.getAnnotation(Test.class).testName();
+		if (result.isSuccess()) {
+			reporter.pass(testCaseName + " :: Passed");
+			createImageForLog(Status.PASS, testCaseName, Camera.takeScreenshot(method.getName()));
+		} else {
+			reporter.fail(testCaseName + " :: Failed");
+			createImageForLog(Status.FAIL, testCaseName, errorSnapshot(method.getName()));
+		}
 	}
 	
 	@AfterClass(alwaysRun = true)
 	public void afterTestBaseClass() {
 		if(closeBrowserAfterClass) {
+			report.flush();
 			Connection.closeConnection();
 		}
 	}
 	
-	protected void endTest(ITestResult result, Method method) {
-		if (result.getStatus() == ITestResult.FAILURE) {
-			errorSnapshot(method);
-			testBaseLogger.info(String.format("**** Failed Test: %s ****", method.getName()));
-		} else if (result.getStatus() == ITestResult.SUCCESS) {
-			testBaseLogger.info(String.format("**** Passed Test: %s ****", method.getName()));
-		}
-	}
-
-	protected void errorSnapshot(Method method) {
-		testBaseLogger.info(String.format("Capturing failure snapshot of \"%s\"", method.getName()));
-		Camera.takeScreenshot("FAILURE-" + method.getName());
+	
+	protected String errorSnapshot(String name) {
+		testBaseLogger.info(String.format("Capturing failure snapshot of \"%s\"", name));
+		return Camera.takeScreenshot("FAILURE-" + name);
 	}
 	
 	/**

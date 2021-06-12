@@ -1,25 +1,23 @@
 package com.qa.mobile.tests;
-import java.net.MalformedURLException;
 
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
 import com.qa.base.MobileBaseTest;
-import com.qa.base.TestBase;
-
-import io.appium.java_client.MobileElement;
-
+import com.qa.pages.mobile.HomePage;
 
 public class MobileTestCase9 extends MobileBaseTest {
+	HomePage homePage;
+	String testText = "test";
 
-	@Test()
-	public void enterTextInExceptionFieldAndVerifyHomePageTitle() throws MalformedURLException {
-		String text = "test";
-		MobileElement field = appiumDriver.findElement(By.id("io.selendroid.testapp:id/exceptionTestField"));
-		field.sendKeys(text);
-		beforeSuiteSetup();	
-		MobileElement title = appiumDriver.findElement(By.id("android:id/title"));
-		Assert.assertEquals(title.getText(), "selendroid-test-app");
+	@Test(testName = "Enter Text Exception Test", enabled = true)
+	public void enterTextInExceptionFieldAndVerifyHomePageTitle() {
+		try {
+			homePage = new HomePage(appiumDriver);
+			homePage.getExceptionTestField().sendKeys(testText);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail("Test Failed :: App Crashed");
+		}
 	}
 }

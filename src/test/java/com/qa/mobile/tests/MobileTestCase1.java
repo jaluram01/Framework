@@ -7,20 +7,35 @@ import com.qa.pages.mobile.HomePage;
 
 public class MobileTestCase1 extends MobileBaseTest {
 	HomePage home;
-
-	@Test
-	public void userUerifiesTitle() {
+	String appTitle = "selendroid-test-app";
+	
+	@Test(testName= "Verify User Title Test", enabled = true, priority = 1)
+	public void verifyUserTitle() {
 		home = new HomePage(appiumDriver);
-		Assert.assertEquals(home.getTitle(), "selendroid-test-app", "Verifying Title");
+		
+		reporter.info("Verifying home tab title");
+		Assert.assertEquals(home.getTitle(), appTitle, "Test Failed:: Title is not as expected");
 	}
 	
-	@Test
+	@Test(testName = "Verify Elements Test", enabled = true, priority = 2)
 	public void userVerifyElementsOnApplication() {
 		home = new HomePage(appiumDriver);
-		Assert.assertEquals(home.getTestBtn().isDisplayed(), true,"Verifying Test Btn");
-		Assert.assertEquals(home.getTextField().isDisplayed(), true,"Verifying Text Field");
-		Assert.assertEquals(home.getProgressBar().isDisplayed(), true,"Verifying Progress Bar");
-		Assert.assertEquals(home.getDisplayToast().isDisplayed(), true,"Verifying Toast Display");
-		Assert.assertEquals(home.getDisplayTestView().isDisplayed(), true,"Verifying Test View Display");
+		home = new HomePage(appiumDriver);
+		
+		reporter.info("Verifying Test Button");
+		Assert.assertTrue(home.getTestBtn().isDisplayed(), "Test Failed:: Test Btn is not present");
+		
+		reporter.info("Verifying Text Field");
+		Assert.assertTrue(home.getTextField().isDisplayed(),"Test Failed:: Text Field is not present");
+		
+		reporter.info("Verifying Show Progress bar Button");
+		Assert.assertTrue(home.getProgressBar().isDisplayed(),"Test Failed:: Show Progress Bar is not present");
+		
+		reporter.info("Verifying Show Toast Button");
+		Assert.assertTrue(home.getDisplayToastBtn().isDisplayed(),"Test Failed:: Toast Display is not present");
+		
+		reporter.info("Verifying Show Display view Button");
+		Assert.assertTrue(home.getDisplayTestView().isDisplayed(),"Test Failed:: Test View Display is not present");
+		
 	}
 }

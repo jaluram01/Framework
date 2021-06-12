@@ -8,7 +8,6 @@ import org.testng.annotations.AfterMethod;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import com.aventstack.extentreports.Status;
 import com.qa.base.TestBase;
 import com.qa.driver.Connection;
 import com.qa.environment.Environment;
@@ -16,7 +15,6 @@ import com.qa.pages.web.JqueryUiControlGroupPage;
 import com.qa.pages.web.JqueryUiDroppablePage;
 import com.qa.pages.web.JqueryUiHomePage;
 import com.qa.pages.web.JqueryUiSelectablePage;
-import com.qa.util.Camera;
 import com.qa.util.GuiObjectControl;
 import com.qa.util.Sleeper;
 
@@ -24,14 +22,13 @@ public class WebTestCases extends TestBase {
 
 	@BeforeClass
 	public void beforeClassSetup() {
-		Environment env = Environment.valueOf(System.getProperty("environment"));
+		Environment env = Environment.valueOf(System.getProperty("env"));
 		Connection.getWebDriver().get(env.getUrl());
 	}
 
-	@Test(enabled = true, priority = 1)
+	@Test(testName = "Droppable functionality Test", enabled = true, priority = 1)
 	public void dragAndDropTest() {
 		try {
-			reporter = report.createTest("Test Droppable functionality");
 			JqueryUiHomePage homePage = new JqueryUiHomePage();
 
 			homePage.droppableLink.click();
@@ -44,21 +41,14 @@ public class WebTestCases extends TestBase {
 			Sleeper.seconds(5, "Waiting for the frame to load");
 
 			GuiObjectControl.dragAndDrop(droppablePage.dragBy, droppablePage.dropBy);
-			reporter.pass("Drag and Drop Test Passed");
-			createImageForLog(Status.PASS, "Performed on successful Drag and Drop operation",
-					Camera.takeScreenshot("dragAndDrop"));
 		} catch (Exception e) {
-			reporter.fail("Test Failed");
-			createImageForLog(Status.FAIL, "Performed on drag and drop failure",
-					Camera.takeScreenshot("dragAndDropFailed"));
 			e.printStackTrace();
 		}
 	}
 
-	@Test(enabled = true, priority = 2)
+	@Test(testName = "Control Group functionality Test", enabled = true, priority = 2)
 	public void controlgroupTest() {
 		try {
-			reporter = report.createTest("Test Control Group functionality");
 			JqueryUiHomePage homePage = new JqueryUiHomePage();
 
 			homePage.controlgroupLink.click();
@@ -100,21 +90,17 @@ public class WebTestCases extends TestBase {
 
 			controlGroupPage.bookNowBtn.click();
 			reporter.info("Clicked on Book Now Button");
-			
+
 			reporter.pass("Control Group Test Passed");
-			createImageForLog(Status.PASS, "Performed on successful control group operations",
-					Camera.takeScreenshot("controlGroupPass"));
+
 		} catch (Exception e) {
-			reporter.fail("Control Group Test Failed");
-			createImageForLog(Status.FAIL, "Performed on unsuccessful control group operations",
-					Camera.takeScreenshot("controlGroupFail"));
+			e.printStackTrace();
 		}
 	}
-	
-	@Test(enabled = true, priority = 3)
+
+	@Test(testName = "Dropdown Test", enabled = true, priority = 3)
 	public void selectItemsFromDropdownTest() {
 		try {
-			reporter = report.createTest("Test Dropdown functionality");
 			JqueryUiHomePage homePage = new JqueryUiHomePage();
 
 			homePage.selectableLink.click();
@@ -128,20 +114,14 @@ public class WebTestCases extends TestBase {
 			JqueryUiSelectablePage selectablePage = new JqueryUiSelectablePage();
 
 			selectablePage.dropDownValues.selectOptions("Item 1", "Item 3", "Item 7");
-			
-			reporter.pass("Select Items from Dropdown Test Passed");
-			createImageForLog(Status.PASS, "Performed on successful Drag and Drop operation",
-					Camera.takeScreenshot("dropdownSelectionPass"));
-		} catch (Exception e) {
-			reporter.fail("Select Items from Dropdown Test Failed");
-			createImageForLog(Status.FAIL, "Performed on unsuccessful Drag and Drop operation",
-					Camera.takeScreenshot("dropdownSelectionFail"));
-		}
 
-	}
-	
-	@AfterMethod(alwaysRun = true) 
-		public void switchToDefaultContent() {
-			GuiObjectControl.switchToDefaultContent();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
+
+	@AfterMethod(alwaysRun = true)
+	public void switchToDefaultContent() {
+		GuiObjectControl.switchToDefaultContent();
+	}
+}

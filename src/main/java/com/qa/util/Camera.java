@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
+import com.qa.base.MobileBaseTest;
 import com.qa.driver.Connection;
 
 public class Camera {
@@ -42,6 +43,36 @@ public class Camera {
 
 		try {
 			TakesScreenshot camera = (TakesScreenshot) Connection.getWebDriver();
+			if (camera == null) {
+				throw new InstantiationException("Unable to instantiate camera");
+			}
+
+			File srcTmpFile = camera.getScreenshotAs(OutputType.FILE);
+			File destFile = createSnapshotFile(context);
+			FileUtils.copyFile(srcTmpFile, destFile, true);
+			logger.debug("Screen snapshot dumped into {}", destFile.getAbsolutePath());
+			FileUtils.deleteQuietly(srcTmpFile);
+
+			return destFile.getPath();
+
+		} catch (IllegalStateException e) {
+			logger.warn("Unable to get scenario | {}", e.getMessage());
+		} catch (InstantiationException e) {
+			logger.error("Unable to create camera | {}", e.getMessage());
+		} catch (Exception e) {
+			logger.error("Could not dump a screen snapshot to a file with prefix '{}'!", context, e);
+		}
+		return null;
+	}
+	
+	public static String takeMobileScreenshot(String context) {
+		if (!enabled) {
+			logger.debug("Camera is disabled");
+			return null;
+		}
+
+		try {
+			TakesScreenshot camera = (TakesScreenshot) MobileBaseTest.appiumDriver;
 			if (camera == null) {
 				throw new InstantiationException("Unable to instantiate camera");
 			}

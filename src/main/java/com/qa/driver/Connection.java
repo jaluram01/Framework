@@ -19,11 +19,10 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import com.qa.exceptions.TestCodeException;
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.bonigarcia.wdm.config.DriverManagerType;
 
@@ -42,7 +41,6 @@ public class Connection implements Cloneable {
 		if (driver == null || driver.toString().contains("null")) {
 			DriverManagerType driverType = null;
 			String browser = System.getProperty("browser");
-
 			try {
 				driverType = DriverManagerType.valueOf(browser);
 			} catch (IllegalArgumentException e) {
@@ -51,8 +49,8 @@ public class Connection implements Cloneable {
 				logger.info("No browser specified");
 			} finally {
 				if (driverType == null) {
-					logger.info("Defaulting to firefox driver");
-					driverType = DriverManagerType.FIREFOX;
+					logger.info("Defaulting to chrome driver");
+					driverType = DriverManagerType.CHROME;
 				}
 			}
 			try {
@@ -89,6 +87,12 @@ public class Connection implements Cloneable {
 
 			driver = new ChromeDriver(createChromeOptions());
 
+			break;
+
+		case FIREFOX:
+
+			WebDriverManager.firefoxdriver().setup();
+			driver = new FirefoxDriver();
 			break;
 		default:
 			throw new TestCodeException(String.format("Unknown Browser %s", driverType.toString()));

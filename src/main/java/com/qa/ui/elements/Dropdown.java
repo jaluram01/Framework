@@ -2,13 +2,11 @@ package com.qa.ui.elements;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import com.qa.driver.Connection;
 import com.qa.exceptions.TestCodeException;
 import com.qa.finder.Finder;
@@ -31,8 +29,8 @@ public class Dropdown extends AGuiObject implements IDropdown {
 //	public Dropdown(By optionsLocator, String description) {
 //		super(optionsLocator, description);
 //	}
-	
-	 public Dropdown(By optionsLocator, String description) {
+
+	public Dropdown(By optionsLocator, String description) {
 		this.optionsLocator = optionsLocator;
 		this.description = description;
 		this.type = Type.TEXT;
@@ -40,14 +38,14 @@ public class Dropdown extends AGuiObject implements IDropdown {
 
 	@Override
 	public IClickable click() {
-		if(isClickable()) {
+		if (isClickable()) {
 			logger.debug("Clicking on {}", description);
 			GuiObjectControl.click(webElement);
 			return this;
 		}
 		throw new TestCodeException("Element is not clickable");
 	}
-	
+
 	@Override
 	public Boolean isClickable() {
 		try {
@@ -75,19 +73,30 @@ public class Dropdown extends AGuiObject implements IDropdown {
 
 		throw new TestCodeException(String.format("Option %s is not available for selection", option));
 	}
+
 	/**
 	 * This method is used to select multiple values from dropdown
+	 * 
 	 * @param strings
 	 * @return
 	 */
-	public IDropdown selectOptions(String...strings) {
+	public IDropdown selectOptions(String... strings) {
 		Actions actions = new Actions(Connection.getWebDriver());
-		for (String option : strings) {
+		List<WebElement> elements = getOptionsElements();
+		if(System.getProperty("os.name").equalsIgnoreCase("Mac OS X")) {
+			actions.keyDown(Keys.COMMAND).pause(500).build().perform();
+		} else {
 			actions.keyDown(Keys.CONTROL).pause(500).build().perform();
-			selectOption(option);
-			actions.release().perform();
 		}
-			
+		for (WebElement webElement : elements) {
+			for (String option : strings) {
+				if (option.equalsIgnoreCase(getValue(webElement))) {
+					webElement.click();
+				}
+			}
+		}
+
+		actions.release().perform();
 		return this;
 	}
 

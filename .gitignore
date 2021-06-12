@@ -5,6 +5,7 @@
 /test-output/
 
 # Files from Target
+/target/
 /target/generated-sources/
 /target/generated-test-sources/
 /target/maven-status/
